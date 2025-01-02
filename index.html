@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="de" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="https://emojicdn.elk.sh/📹" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "system-ui"],
+            },
+          },
+        },
+      };
+    </script>
+    <title>KH Studio</title>
+  </head>
+  <body class="antialiased bg-zinc-50 text-zinc-700 h-full">
+    <div id="app" class="grid place-items-center min-h-full"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

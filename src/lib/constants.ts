@@ -1,9 +1,9 @@
 export const CAM_IP = "192.168.178.10";
 
-export enum CameraPosition {
-  Speaker = 1,
-  Reader = 2,
-  LongShot = 3,
-  Table = 4,
-  Standing = 5,
-}
+export const cameraPositions = {
+  Redner: 1,
+  "Leser/Vorsitz": 2,
+  Totale: 3,
+  Tisch: 4,
+  "Aufgabe im Stehen": 5,
+};

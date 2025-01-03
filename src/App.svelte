@@ -1,20 +1,26 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import Button from "./lib/components/Button.svelte";
   import KeyboardInput from "./lib/components/KeyboardInput.svelte";
-  import { cameraPositions } from "./lib/constants";
+  import SettingsButton from "./lib/components/settings/Trigger.svelte";
+  import { CAM_IP, cameraPositions } from "./lib/constants";
   import { getRequestUrl } from "./lib/util";
 
   let currentPosition: number | undefined = $state();
+  let cameraIp: string | undefined = $state(undefined);
+
+  let dialog: HTMLDialogElement | null = null;
 
   export function changeCameraPosition(position: number) {
-    const url = getRequestUrl(position);
-    fetch(url).catch((e) => console.error(`request to camera failed`));
+    fetch(getRequestUrl(position), {
+      signal: AbortSignal.timeout(3000),
+    }).catch((e) => console.error(`request to camera failed`));
 
     currentPosition = position;
   }
 
   function handleKeydown(event: KeyboardEvent) {
-    if (!event.ctrlKey || isNaN(Number(event.key))) return;
+    if (!event.ctrlKey || !/^[0-9]$/.test(event.key)) return;
 
     const validPositions = Object.values(cameraPositions);
     const key = Number(event.key);
@@ -24,27 +30,40 @@
       changeCameraPosition(key);
     }
   }
+
+  function openSettings() {
+    dialog?.showModal();
+  }
+
+  function closeSettings() {
+    dialog?.close();
+  }
+
+  onMount(() => {
+    if (cameraIp === undefined) {
+      dialog?.showModal();
+    }
+  });
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 
-<button class="absolute top-6 right-6" aria-label="Einstellungen">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    class="size-6"
-    ><path d="M20 7h-9" /><path d="M14 17H5" /><circle cx="17" cy="17" r="3" /><circle
-      cx="7"
-      cy="7"
-      r="3"
-    /></svg
-  >
-</button>
+<SettingsButton onclick={openSettings} />
+
+<dialog
+  class="shadow p-6 border max-w-md w-full rounded backdrop:bg-black/50 backdrop:backdrop-blur-sm"
+  bind:this={dialog}
+>
+  <div class="flex justify-between items-center">
+    <h2 class="font-bold text-lg">Einstellungen</h2>
+    <button class="text-sm text-zinc-500" onclick={closeSettings}>Schließen</button>
+  </div>
+
+  <div class="mt-4">
+    <label for="cam-ip" class="text-sm font-medium">Kamera IP</label>
+    <input id="cam-ip" type="text" class="w-full mt-1" bind:value={cameraIp} />
+  </div>
+</dialog>
 
 <main class="text-center space-y-6 px-6">
   <h1 class="font-bold tracking-tighter text-zinc-900 text-2xl">KRS Studio</h1>
@@ -54,13 +73,13 @@
   </p>
 
   <div class="space-x-4 space-y-4">
-    {#each Object.entries(cameraPositions) as [key, value]}
+    {#each Object.entries(cameraPositions) as [key, value], i}
       <Button
         onclick={() => changeCameraPosition(value)}
         class="px-4 py-2 bg-zinc-800 font-medium text-white rounded-md enabled:hover:bg-zinc-700 disabled:bg-green-700 transition-colors"
         disabled={currentPosition === value}
       >
-        {key} ({value})
+        {key} ({i + 1})
       </Button>
     {/each}
   </div>

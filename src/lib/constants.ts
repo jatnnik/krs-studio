@@ -7,3 +7,5 @@ export const cameraPositions = {
   Tisch: 4,
   "Aufgabe im Stehen": 5,
 };
+
+export const LOCAL_STORAGE_KEY = "krs_studio_config" as const;

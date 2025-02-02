@@ -6,7 +6,7 @@
 
 <kbd
   class={[
-    "pointer-events-none select-none rounded border bg-zinc-50 p-1.5 font-medium font-mono shadow text-sm",
+    "pointer-events-none select-none rounded-sm border bg-zinc-50 p-1.5 font-medium font-mono shadow-sm text-sm",
     props.class,
   ]}
 >

@@ -51,7 +51,7 @@
 <SettingsButton onclick={openSettings} />
 
 <dialog
-  class="shadow p-6 border max-w-md w-full rounded backdrop:bg-black/50 backdrop:backdrop-blur-sm"
+  class="shadow-sm p-6 border max-w-md w-full rounded-sm backdrop:bg-black/50 backdrop:backdrop-blur-xs"
   bind:this={dialog}
 >
   <div class="flex justify-between items-center">

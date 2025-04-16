@@ -1,6 +1,6 @@
-# CamControl 📹
+# KRS Studio
 
-A tiny web app to control a camera that is connected to WiFi. It works by sending plain old `POST` requests to the cameras IP, which contain the view ID we want to switch to.
+A tiny web app to control a camera that is connected to the network and provides a REST API for controlling. It works by sending a simple `POST` request to the control endpoint, which contains the view ID we want to switch to.
 
 Built with HTML, Alpine.js and Tailwind CSS.
 
